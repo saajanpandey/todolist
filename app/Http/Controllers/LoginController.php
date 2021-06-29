@@ -10,7 +10,12 @@ class LoginController extends Controller
 {
     public function showLogin()
     {
+        if(Auth::check()){
+            return redirect()->intended('/task');
+        }
+        else{
         return view('Auth.login');
+        }
     }
 
     public function doLogin(Request $request)
@@ -19,17 +24,17 @@ class LoginController extends Controller
         $credentials= $request->only('email','password');
         if (Auth::attempt($credentials)) //check for email and password matches or not
         {
-            return redirect()->intended('home');//named route used
+            return redirect()->intended('/task');
         }
 
-        return redirect('/')->with('error', 'Login Unsuccessful');
+        return redirect('/')->with('error', 'Wrong Email Or Password');
     }
 
     public function logout()
     {
         Auth::logout();
 
-        return redirect('show.login');
+        return redirect('/');
     }
 
 }
