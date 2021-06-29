@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -23,7 +26,8 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        //
+
+        return View('register.create');
     }
 
     /**
@@ -32,9 +36,16 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = new User();
+
+        $user->name=$request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect('/')->with('success', 'User Added Successfully');
     }
 
     /**
@@ -79,6 +90,8 @@ class RegisterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect('/');
     }
 }
