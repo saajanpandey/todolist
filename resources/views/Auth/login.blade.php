@@ -2,8 +2,6 @@
 
 @section('content')
 @push('style')
-{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-
-alpha/css/bootstrap.css" rel="stylesheet"> --}}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -11,8 +9,8 @@ alpha/css/bootstrap.css" rel="stylesheet"> --}}
 href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link rel="stylesheet" href="{{asset('css/login.css')}}">
 @endpush
-<h2>Login Form</h2>
 <script>
 @if(session()->has('error'))
 toastr.options =
@@ -21,21 +19,27 @@ toastr.options =
   	"progressBar" : true
   }
   		toastr.error("{{ session('error') }}");
-                @endif
-                </script>
+          @elseif (session()->has('success'))
+          toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('success') }}");
+          @endif
+</script>
+        <div class="container">
 <form action="{{route('auth')}}" method="post">
-
-@csrf
-  <div class="container">
-    <label for="uname"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-
-    <button type="submit">Login</button>
-  </div>
-
-</form>
-
+    @csrf
+    <div class="mb-3">
+      <label for="emailid" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="emailid" name="email" >
+    </div>
+    <div class="mb-3">
+      <label for="passwd" class="form-label">Password</label>
+      <input type="password" class="form-control" id="passwd" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">LogIn</button>
+  </form>
+        </div>
 @endsection

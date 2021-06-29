@@ -11,17 +11,25 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">TodoList</a>
-
+            @if (Auth::check())
+            <a class="navbar-brand" href="{{url('/task')}}">TodoList</a>
+            @else
+            <a class="navbar-brand" href="{{url('/')}}">TodoList</a>
+            @endif
             <ul class=" nav justify-content-end navbar-nav">
               @guest
               <li class="nav-item">
                 <a class="nav-link" href="{{route('show.login')}}">{{ __('Login') }}</a>
               </li>
-              {{-- <li class="nav-item">
-                  <a class="nav-link" href="{{route('register')}}">Register</a>
-              </li> --}}
+
+              <li class="nav-item">
+                  <a class="nav-link" href="{{url('/register/create')}}">Register</a>
+              </li>
+
               @else
+              <li class="nav-item navbar-brand">
+                    {{__(Auth::user()->name)}}
+              </li>
               <li class="nav-item ">
                   <a class="nav-link" href="{{ route('logout') }}">
                       {{ __('Logout') }}
@@ -31,9 +39,8 @@
             </ul>
         </div>
       </nav>
-    <div class="container">
-        @yield('content')
-    </div>
+    @yield('content')
+    @stack('custom-script')
 </body>
 </html>
 
