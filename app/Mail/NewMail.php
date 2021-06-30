@@ -29,7 +29,6 @@ class NewMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('This is Task Email')
-        ->view('email.test');
+        return $this->subject('This is Task Created Email')->view('email.test');
     }
 }

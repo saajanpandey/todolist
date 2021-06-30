@@ -28,6 +28,6 @@ class DeadLineMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('This is Task Email')->view('email.test2');
+        return $this->subject('This is Task Deadline Email')->view('email.test2');
     }
 }

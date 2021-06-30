@@ -103,19 +103,23 @@ class TaskController extends Controller
         //
     }
 
-    public function sendEmail($task)
-    {
 
-        $id= Auth::id();
-        $email = User::where('id',$id)->get('email');
-        $taskEmail =[
-            'name'=> $task->name,
-            'info'=>'Task is Started'
-        ];
-        \Mail::to($email)
-        ->later(Carbon::now()->addMinutes(5), new \App\Mail\NewMail($taskEmail));
+    // sending mail using the Mail function later
 
-    }
+    // public function sendEmail($task)
+    // {
+
+    //     $id= Auth::id();
+    //     $email = User::where('id',$id)->get('email');
+    //     $taskEmail =[
+    //         'name'=> $task->name,
+    //         'info'=>'Task is Started'
+    //     ];
+    //     \Mail::to($email)
+    //     ->later(Carbon::now()->addMinutes(5), new \App\Mail\NewMail($taskEmail));
+
+    // }
+
     public function changeStatus($id)
     {
         $task = Task::find($id);
@@ -124,18 +128,19 @@ class TaskController extends Controller
         return redirect('/task')->with('info','Task Updated');
     }
 
-    public function deadLineMail($task)
-    {
-        $deadline = $task->deadline;
-        $newDateTime= Carbon::parse($deadline);
 
-            $id= Auth::id();
-            $email = User::where('id',$id)->get('email');
-            $deadLineEmail =[
-                'name'=> $task->name,
-                'info'=>'Task is not completed'
-            ];
-            \Mail::to($email)
-            ->later($newDateTime->subSeconds(60), new \App\Mail\DeadLineMail($deadLineEmail));
-    }
+    // public function deadLineMail($task)
+    // {
+    //     $deadline = $task->deadline;
+    //     $newDateTime= Carbon::parse($deadline);
+
+    //         $id= Auth::id();
+    //         $email = User::where('id',$id)->get('email');
+    //         $deadLineEmail =[
+    //             'name'=> $task->name,
+    //             'info'=>'Task is not completed'
+    //         ];
+    //         \Mail::to($email)
+    //         ->later($newDateTime->subSeconds(60), new \App\Mail\DeadLineMail($deadLineEmail));
+    // }
 }
